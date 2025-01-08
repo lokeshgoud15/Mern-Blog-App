@@ -37,6 +37,18 @@ const DashProfile = () => {
   const dispatch = useDispatch();
   const filePickerRef = useRef();
 
+  //added this to change the profile picture
+  useEffect(() => {
+    if (currentUser) {
+      setFormData({
+        username: currentUser.username,
+        email: currentUser.email,
+        profilePicture: currentUser.profilePicture,
+      });
+    }
+  }, [currentUser]);
+
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -111,7 +123,7 @@ const DashProfile = () => {
         body: JSON.stringify(formData),
       });
 
-      const data = res.json();
+      const data = await  res.json();
 
       if (!res.ok) {
         dispatch(updateFailure(data.messsage));

@@ -71,7 +71,7 @@ export const signin = async (req, res) => {
       });
     }
 
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ userId: user._id,isAdmin:user.isAdmin }, process.env.JWT_SECRET, {
       expiresIn: "1d",
     });
 
@@ -95,7 +95,7 @@ export const google = async (req, res) => {
   try {
     const user = await User.findOne({ email });
     if (user) {
-      const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+      const token = jwt.sign({ userId: user._id,isAdmin:user.isAdmin  }, process.env.JWT_SECRET, {
         expiresIn: "1d",
       });
 
@@ -121,7 +121,7 @@ export const google = async (req, res) => {
         profilePicture: googlePhotoUrl,
       });
       await newUser.save();
-      const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
+      const token = jwt.sign({ userId: user._id,isAdmin:user.isAdmin  }, process.env.JWT_SECRET);
 
       const { password: pass, ...rest } = user._doc;
       res

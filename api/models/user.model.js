@@ -19,6 +19,11 @@ const userSchema = new mongoose.Schema(
     profilePicture:{
       type:String,
       default:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOgPTQ0JtqCrqUzUv-LOYsCh7olqRM5PurtwimOuXKQE8nGY8n01TWbqo&s"
+    },
+    isAdmin:{
+      type:Boolean,
+      default:false,
+      
     }
   },
   { timestamps: true }
