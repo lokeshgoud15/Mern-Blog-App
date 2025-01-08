@@ -79,7 +79,7 @@ export const signin = async (req, res) => {
 
     res
       .status(200)
-      .cookie("access_token", token, {
+      .cookie("access-token", token, {
         httpOnly: true,
         maxAge: 24 * 60 * 60 * 1000, // 1 day
       })
@@ -126,7 +126,7 @@ export const google = async (req, res) => {
       const { password: pass, ...rest } = user._doc;
       res
         .status(200)
-        .cookie("access_token", token, {
+        .cookie("access-token", token, {
           httpOnly: true,
           maxAge: 24 * 60 * 60 * 1000, // 1 day
         })

@@ -6,8 +6,6 @@ export const test = (req, res) => {
 };
 
 export const updateUser = async (req, res) => {
-
-    
   if (req.user.userId !== req.params.userId) {
     return res
       .status(403)
@@ -43,6 +41,7 @@ export const updateUser = async (req, res) => {
         .send({ message: "Username can only contain letters and numbers" });
     }
   }
+
   try {
     const updatedUser = await User.findByIdAndUpdate(
       req.params.userId,

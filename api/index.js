@@ -16,8 +16,8 @@ app.use(cookieParser())
 
 //routes
 
-app.use("/api/user", userRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/user", userRoutes);
 
 //port and connection
 app.listen(3000, () => {
