@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import userRoutes from "./routes/user.route.js";
 import authRoutes from "./routes/auth.route.js";
 import connectDB from "./db/dbConnection.js";
+import cookieParser from "cookie-parser";
 
 const app = express();
 dotenv.config();
@@ -10,6 +11,7 @@ dotenv.config();
 //middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser())
 
 
 //routes

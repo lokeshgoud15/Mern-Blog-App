@@ -79,7 +79,7 @@ export const signin = async (req, res) => {
 
     res
       .status(200)
-      .cookie("access-token", token, {
+      .cookie("access_token", token, {
         httpOnly: true,
         maxAge: 24 * 60 * 60 * 1000, // 1 day
       })
@@ -94,42 +94,45 @@ export const google = async (req, res) => {
 
   try {
     const user = await User.findOne({ email });
-    if(user){
-      const token=  jwt.sign({userId:user._id},process.env.JWT_SECRET);
+    if (user) {
+      const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+        expiresIn: "1d",
+      });
 
-      const {password:pass,...rest}=user._doc;
-      res.status(200).cookie('access-token',token,{
-        httpOnly:true,
-        maxAge:24*60*60*1000, // 1 day
-      }).json(rest)
-
-    }
-    else{
-      const generatedPassword= Math.random().toString(36).slice(-8)+Math.random().toString(36).slice(-8);
-      const hashedPassword= await bcrypt.hash(generatedPassword,10);
+      const { password: pass, ...rest } = user._doc;
+      res
+        .status(200)
+        .cookie("access-token", token, {
+          httpOnly: true,
+          maxAge: 24 * 60 * 60 * 1000, // 1 day
+        })
+        .json(rest);
+    } else {
+      const generatedPassword =
+        Math.random().toString(36).slice(-8) +
+        Math.random().toString(36).slice(-8);
+      const hashedPassword = await bcrypt.hash(generatedPassword, 10);
       const newUser = new User({
-        username:name.toLowerCase().split(' ').join('')+Math.random().toString(9).slice(-4),
-        email:email,
-        password:hashedPassword,
-        profilePicture:googlePhotoUrl,
-      })
+        username:
+          name.toLowerCase().split(" ").join("") +
+          Math.random().toString(9).slice(-4),
+        email: email,
+        password: hashedPassword,
+        profilePicture: googlePhotoUrl,
+      });
       await newUser.save();
-      const token=  jwt.sign({userId:user._id},process.env.JWT_SECRET);
+      const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
 
-      const {password:pass,...rest}=user._doc;
-      res.status(200).cookie('access-token',token,{
-        httpOnly:true,
-        maxAge:24*60*60*1000, // 1 day
-      }).json(rest)
-
+      const { password: pass, ...rest } = user._doc;
+      res
+        .status(200)
+        .cookie("access_token", token, {
+          httpOnly: true,
+          maxAge: 24 * 60 * 60 * 1000, // 1 day
+        })
+        .json(rest);
     }
-
-
-
-  } 
-  
-  
-  catch (error) {
+  } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
