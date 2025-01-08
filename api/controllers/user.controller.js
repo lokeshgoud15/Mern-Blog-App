@@ -62,3 +62,23 @@ export const updateUser = async (req, res) => {
     res.status(500).json({ success: false, message: "Failed to update user" });
   }
 };
+
+export const deleteUser = async (req, res) => {
+  if (req.user.userId !== req.params.userId) {
+    return res
+      .status(403)
+      .json({
+        success: false,
+        message: "You can only delete your own account",
+      });
+  }
+  try {
+    await User.findByIdAndDelete(req.params.userId);
+    res
+      .status(200)
+      .json({ success: true, message: "User deleted successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: "Failed to delete user" });
+  }
+};
