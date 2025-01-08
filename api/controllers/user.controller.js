@@ -65,12 +65,10 @@ export const updateUser = async (req, res) => {
 
 export const deleteUser = async (req, res) => {
   if (req.user.userId !== req.params.userId) {
-    return res
-      .status(403)
-      .json({
-        success: false,
-        message: "You can only delete your own account",
-      });
+    return res.status(403).json({
+      success: false,
+      message: "You can only delete your own account",
+    });
   }
   try {
     await User.findByIdAndDelete(req.params.userId);
@@ -80,5 +78,17 @@ export const deleteUser = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ success: false, message: "Failed to delete user" });
+  }
+};
+
+export const signout = async (req, res) => {
+  try {
+    res
+      .clearCookie("access-token")
+      .status(200)
+      .json({ success: true, message: "Logged out successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: "Failed to sign out" });
   }
 };
