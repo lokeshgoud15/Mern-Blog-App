@@ -64,7 +64,7 @@ export const updateUser = async (req, res) => {
 };
 
 export const deleteUser = async (req, res) => {
-  if (req.user.userId !== req.params.userId) {
+  if (!req.user.isAdmin && req.user.userId !== req.params.userId) {
     return res.status(403).json({
       success: false,
       message: "You can only delete your own account",
