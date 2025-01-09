@@ -61,17 +61,33 @@ export const getposts = async (req, res) => {
       now.getDate()
     );
     const lastMonthPosts = await Post.countDocuments({
-      createdAt:{$gte: oneMonthAgo}
-    })
+      createdAt: { $gte: oneMonthAgo },
+    });
 
     res.status(200).json({
       posts,
       totalPosts,
-      lastMonthPosts
-    })
-   
+      lastMonthPosts,
+    });
   } catch (error) {
     console.log(error.message);
+  }
+};
+
+export const deletepost = async (req, res) => {
+  if (!req.user.isAdmin || req.user.userId !== req.params.userId) {
+    return res
+      .status(401)
+      .json({ message: "You are not authorized to delete this post" });
+  }
+  try {
+
+    await Post.findByIdAndDelete(req.params.postId);
+    res.status(200).json({ message: "Post deleted successfully" });
+    
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json(' Error deleting post');
     
   }
 };
