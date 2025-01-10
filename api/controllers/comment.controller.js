@@ -58,12 +58,12 @@ export const editComment = async (req, res, next) => {
   try {
     const comment = await Comment.findById(req.params.commentId);
     if (!comment) {
-      return next(errorHandler(404, "Comment not found"));
+      return res.status(404).json({ message: "Comment not found" });
     }
-    if (comment.userId !== req.user.id && !req.user.isAdmin) {
-      return next(
-        errorHandler(403, "You are not allowed to edit this comment")
-      );
+    if (comment.userId !== req.user.userId && !req.user.isAdmin) {
+      return res
+        .status(403)
+        .json({ message: "You are not authorized to edit this comment" });
     }
 
     const editedComment = await Comment.findByIdAndUpdate(
@@ -75,7 +75,7 @@ export const editComment = async (req, res, next) => {
     );
     res.status(200).json(editedComment);
   } catch (error) {
-    next(error);
+    res.status(400).json({ message: error.message });
   }
 };
 
