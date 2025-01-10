@@ -54,7 +54,7 @@ const Header = () => {
 
   return (
     <Navbar className="border-b-2">
-      <Navbar.Brand>
+     
         <Link
           to="/"
           className="self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white"
@@ -64,9 +64,9 @@ const Header = () => {
           </span>
           Blog
         </Link>
-      </Navbar.Brand>
+    
 
-      <form  onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit}>
         <TextInput
           type="text"
           placeholder="Search"
@@ -77,6 +77,7 @@ const Header = () => {
       <Button className="w-12 h-10 lg:hidden " color="gray" pill>
         <AiOutlineSearch />
       </Button>
+
       <div className="flex gap-2 md:order-2">
         <Button
           className="w-12 h-10 hiddden lg:inline "
@@ -86,12 +87,13 @@ const Header = () => {
         >
           {theme === "light" ? <FaMoon /> : <FaSun />}
         </Button>
+
         {currentUser ? (
           <Dropdown
             arrowIcon={false}
             inline
             label={
-              <Avatar alt="User" img={currentUser.profilePicture} rounded />
+              <Avatar alt="user" img={currentUser.profilePicture} rounded />
             }
           >
             <Dropdown.Header>
@@ -100,8 +102,10 @@ const Header = () => {
                 {currentUser.email}
               </span>
             </Dropdown.Header>
+
             <Link to={"/dashboard?tab=profile"}>
               <Dropdown.Item>Profile</Dropdown.Item>
+              
             </Link>
             <Dropdown.Divider />
             <Dropdown.Item onClick={handleSignOut}>Sign Out</Dropdown.Item>
@@ -117,7 +121,7 @@ const Header = () => {
       </div>
       {/* Menu */}
       <Navbar.Collapse>
-        <Navbar.Link active={path === "/"} as="div">
+        <Navbar.Link active={path === "/"} as='div'>
           <Link to="/">Home</Link>
         </Navbar.Link>
         <Navbar.Link active={path === "/about"} as="div">
