@@ -1,40 +1,56 @@
 import React from "react";
 import { Avatar, Button, Dropdown, Navbar, TextInput } from "flowbite-react";
-import { Link, useLocation , useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AiOutlineSearch } from "react-icons/ai";
 import { FaMoon, FaSun } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleTheme } from "../redux/Theme/themeSlice";
 import { signOutSuccess } from "../redux/user/userSlice";
-
+import { useEffect, useState } from "react";
 
 const Header = () => {
   const path = useLocation().pathname;
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const { currentUser } = useSelector((state) => state.user);
   const { theme } = useSelector((state) => state.theme);
-   const handleSignOut = async () => {
-      try {
-        const res = await fetch("/api/user/signout", {
-          method: "POST",
-        });
-  
-        const data = res.json();
-        if (!res.ok) {
-         console.log(data.message);
-         
-          } else {
-            dispatch(signOutSuccess());
-            navigate('/sign-in')
-          }
-  
-      } catch (error) {
-        console.log(error.message);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search);
+    const searchTermFromUrl = urlParams.get("searchTerm");
+    if (searchTermFromUrl) {
+      setSearchTerm(searchTermFromUrl);
+    }
+  }, [location.search]);
+
+  const handleSignOut = async () => {
+    try {
+      const res = await fetch("/api/user/signout", {
+        method: "POST",
+      });
+
+      const data = res.json();
+      if (!res.ok) {
+        console.log(data.message);
+      } else {
+        dispatch(signOutSuccess());
+        navigate("/sign-in");
       }
-    };
-  
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const urlParams = new URLSearchParams(location.search);
+    urlParams.set("searchTerm", searchTerm);
+    const searchQuery = urlParams.toString();
+    navigate(`/search?${searchQuery}`);
+  };
 
   return (
     <Navbar className="border-b-2">
@@ -50,7 +66,7 @@ const Header = () => {
         </Link>
       </Navbar.Brand>
 
-      <form>
+      <form  onSubmit={handleSubmit}>
         <TextInput
           type="text"
           placeholder="Search"
@@ -88,7 +104,7 @@ const Header = () => {
               <Dropdown.Item>Profile</Dropdown.Item>
             </Link>
             <Dropdown.Divider />
-            <Dropdown.Item onClick={handleSignOut}  >Sign Out</Dropdown.Item>
+            <Dropdown.Item onClick={handleSignOut}>Sign Out</Dropdown.Item>
           </Dropdown>
         ) : (
           <Link to="/sign-in">
