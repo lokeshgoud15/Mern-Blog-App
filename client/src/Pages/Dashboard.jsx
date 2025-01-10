@@ -5,11 +5,10 @@ import DashProfile from "../components/DashProfile";
 import DashPosts from "../components/DashPosts";
 import DashUsers from "../components/DashUsers";
 import DashComments from "../components/DashComments";
-
+import DashboardComp from "../components/DashboardComp";
 const Dashboard = () => {
   const location = useLocation();
   const [tab, setTab] = useState("");
-
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
@@ -28,12 +27,14 @@ const Dashboard = () => {
       {/* profile ...  */}
       {tab === "profile" && <DashProfile />}
       {/* posts */}
-      {tab === 'posts' && <DashPosts/>}
+      {tab === "posts" && <DashPosts />}
       {/* Users */}
-      {tab==='users' && <DashUsers/>}
+      {tab === "users" && <DashUsers />}
       {/* dash comments */}
 
-      {tab==='comments' && <DashComments/>}
+      {tab === "comments" && <DashComments />}
+      {/* dashboard comp */}
+      {tab === "dash" && <DashboardComp />}
     </div>
   );
 };
