@@ -18,7 +18,9 @@ export const createComment = async (req, res, next) => {
 
     res.status(200).json(newComment);
   } catch (error) {
-    next(error);
+
+    res.status(400).json({message:error.message})
+    
   }
 };
 
@@ -29,7 +31,7 @@ export const getPostComments = async (req, res, next) => {
     });
     res.status(200).json(comments);
   } catch (error) {
-    next(error);
+    res.status(400).json({message:error.message})
   }
 };
 
