@@ -10,7 +10,7 @@ import Dashboard from "./Pages/Dashboard";
 import Projects from "./Pages/Projects";
 import FooterComponent from "./components/Footer";
 import PrivateRoute from "./components/PrivateRoute";
-import Search from './pages/Search';
+import Search from './Pages/Search';
 
 import OnlyAdminPrivateRoute from "./components/OnlyAdminPrivateRoute";
 import CreatePost from "./Pages/CreatePost";
