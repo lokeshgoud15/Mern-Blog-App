@@ -18,9 +18,7 @@ export const createComment = async (req, res, next) => {
 
     res.status(200).json(newComment);
   } catch (error) {
-
-    res.status(400).json({message:error.message})
-    
+    res.status(400).json({ message: error.message });
   }
 };
 
@@ -31,7 +29,7 @@ export const getPostComments = async (req, res, next) => {
     });
     res.status(200).json(comments);
   } catch (error) {
-    res.status(400).json({message:error.message})
+    res.status(400).json({ message: error.message });
   }
 };
 
@@ -39,12 +37,12 @@ export const likeComment = async (req, res, next) => {
   try {
     const comment = await Comment.findById(req.params.commentId);
     if (!comment) {
-      return next(errorHandler(404, "Comment not found"));
+      return res.status(404).json({ message: "Comment not found" });
     }
-    const userIndex = comment.likes.indexOf(req.user.id);
+    const userIndex = comment.likes.indexOf(req.user.userId);
     if (userIndex === -1) {
       comment.numberOfLikes += 1;
-      comment.likes.push(req.user.id);
+      comment.likes.push(req.user.userId);
     } else {
       comment.numberOfLikes -= 1;
       comment.likes.splice(userIndex, 1);
@@ -52,7 +50,7 @@ export const likeComment = async (req, res, next) => {
     await comment.save();
     res.status(200).json(comment);
   } catch (error) {
-    next(error);
+    res.status(400).json({ message: error.message });
   }
 };
 
