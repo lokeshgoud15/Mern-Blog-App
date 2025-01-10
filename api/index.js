@@ -17,6 +17,7 @@ app.use(cookieParser());
 
 const __dirname = path.resolve();
 //routes
+app.use(express.static(path.join(__dirname, "/client/dist")));
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
@@ -27,7 +28,6 @@ app.use("/api/user", userRoutes);
 app.use("/api/post", postRoutes);
 app.use("/api/comment", commentRoutes);
 
-app.use(express.static(path.join(__dirname, "/client/dist")));
 
 //port and connection
 app.listen(3000, () => {
