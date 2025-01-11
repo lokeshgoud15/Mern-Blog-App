@@ -41,3 +41,9 @@ Technologies Used
 - Backend: Node.js, Express.js, MongoDB
 - Authentication: JSON Web Tokens (JWT)
 
+1. Clone the repository: git clone https://github.com/lokeshgoud15/Mern-Blog-App.git
+2. Install dependencies: npm install
+3. Start the server: npm start
+4. Open the application in your browser: http://localhost:3000
+
+
